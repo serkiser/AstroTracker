@@ -1,14 +1,21 @@
-
- int motorPin1 = 8;        // Pin 1 del motor Az                      
- int motorPin2 = 9;        // Pin 2 del motor Az
- int motorPin3 = 10;       // Pin 3 del motor Az
- int motorPin4 = 11;       // Pin 4 del motor Az
- int delayTime = 15;       // delay de pasos del motor Az               
- int buttonizq = 2;       // pin entrada hacia izquierda
- int buttonder = 3;       // pin entrada hacia derecha
- int izquierda  = 0;       // estado de la entrada de giro izquierda
- int derecha = 0;          // estado de la entrada de giro a derecha
- int giroizquierda [8][4] =
+int motor1Pin1 = 22;     // Pin 1 del motor Az                      
+int motor1Pin2 = 23;     // Pin 2 del motor Az
+int motor1Pin3 = 24;     // Pin 3 del motor Az
+int motor1Pin4 = 25;     // Pin 4 del motor Az
+int motor2Pin1 = 26;     // Pin 1 del motor Dec
+int motor2Pin2 = 27;     // Pin 2 del motor Dec
+int motor2Pin3 = 28;     // Pin 3 del motor Dec
+int motor2Pin4 = 29;     // Pin 4 del motor Dec
+int delayTime = 15;      // delay de pasos del motor Az/Dec
+int buttonizq = 2;       // pin entrada hacia izquierda
+int buttonder = 3;       // pin entrada hacia derecha
+int buttonarb = 4;       // pin entrada hacia arriba
+int buttonabj = 5;       // pin entrada hacia abajo
+int izquierda  = 0;      // estado de la entrada de giro a izquierda
+int derecha = 0;         // estado de la entrada de giro a derecha
+int arriba = 0;          // estado de la entrada de giro a arriba
+int abajo = 0;           // estado de la entrada de giro a abajo
+int giroizquierda [8][4] =
 {
   {1, 0, 0, 0},
   {1, 1, 0, 0},
@@ -54,35 +61,96 @@ int giroabajo [8][4] =
 };
  
 void setup() {
-  pinMode(motorPin1, OUTPUT);                   
-  pinMode(motorPin2, OUTPUT);
-  pinMode(motorPin3, OUTPUT);
-  pinMode(motorPin4, OUTPUT);
+  pinMode(motor1Pin1, OUTPUT);                   
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(motor1Pin3, OUTPUT);
+  pinMode(motor1Pin4, OUTPUT);
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
+  pinMode(motor2Pin3, OUTPUT);
+  pinMode(motor2Pin4, OUTPUT);  
   pinMode(buttonizq, INPUT); 
   pinMode(buttonder, INPUT);
+  pinMode(buttonarb, INPUT);
+  pinMode(buttonabj, INPUT);
 }
 void loop() {
-  izquierda= digitalRead(buttonizq);
-  derecha=  digitalRead(buttonder);
-
+  izquierda = digitalRead(buttonizq);
+  derecha =  digitalRead(buttonder);
+  arriba = digitalRead(buttonarb);
+  abajo = digitalRead(buttonabj);
+  
   if(izquierda==HIGH)
   { 
-    for (int i = 0; i < 51; i++){
+    for (int i = 0; i < 1; i++)
+    {
       for (int i = 0; i < 8; i++)
-      digitalWrite(motorPin1, giroizquierda[i][0]);
-      digitalWrite(motorPin2, giroizquierda[i][1]);
-      digitalWrite(motorPin3, giroizquierda[i][2]);
-      digitalWrite(motorPin4, giroizquierda[i][3]);          
-    }    
+      {
+        digitalWrite(motor1Pin1, giroizquierda[i][0]);
+        digitalWrite(motor1Pin2, giroizquierda[i][1]);
+        digitalWrite(motor1Pin3, giroizquierda[i][2]);
+        digitalWrite(motor1Pin4, giroizquierda[i][3]); 
+        delay(delayTime);
+      }      
+    }   
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor1Pin3, LOW);  
+  digitalWrite(motor1Pin4, LOW);
   }
   else if (derecha==HIGH)
   {
-    for (int i = 0; i < 51; i++){
+    for (int i = 0; i < 1; i++)
+    {
       for (int i = 0; i < 8; i++)
-      digitalWrite(motorPin1, giroderecha[i][0]);
-      digitalWrite(motorPin2, giroderecha[i][1]);
-      digitalWrite(motorPin3, giroderecha[i][2]);
-      digitalWrite(motorPin4, giroderecha[i][3]);          
+      {
+       digitalWrite(motor1Pin1, giroderecha[i][0]);
+       digitalWrite(motor1Pin2, giroderecha[i][1]);
+       digitalWrite(motor1Pin3, giroderecha[i][2]);
+       digitalWrite(motor1Pin4, giroderecha[i][3]);
+       delay(delayTime);
+      }          
     }
+    digitalWrite(motor1Pin1, LOW);
+    digitalWrite(motor1Pin2, LOW);
+    digitalWrite(motor1Pin3, LOW);
+    digitalWrite(motor1Pin4, LOW);
   }
+
+if(arriba==HIGH)
+  { 
+    for (int i = 0; i < 1; i++)
+    {
+      for (int i = 0; i < 8; i++)
+      {
+        digitalWrite(motor2Pin1, giroarriba[i][0]);
+        digitalWrite(motor2Pin2, giroarriba[i][1]);
+        digitalWrite(motor2Pin3, giroarriba[i][2]);
+        digitalWrite(motor2Pin4, giroarriba[i][3]); 
+        delay(delayTime);
+      }      
+    }   
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, LOW);
+  digitalWrite(motor2Pin3, LOW);  
+  digitalWrite(motor2Pin4, LOW);
+  }
+  else if (abajo==HIGH)
+  {
+    for (int i = 0; i < 1; i++)
+    {
+      for (int i = 0; i < 8; i++)
+      {
+       digitalWrite(motor2Pin1, giroderecha[i][0]);
+       digitalWrite(motor2Pin2, giroderecha[i][1]);
+       digitalWrite(motor2Pin3, giroderecha[i][2]);
+       digitalWrite(motor2Pin4, giroderecha[i][3]);
+       delay(delayTime);
+      }          
+    }
+    digitalWrite(motor2Pin1, LOW);
+    digitalWrite(motor2Pin2, LOW);
+    digitalWrite(motor2Pin3, LOW);
+    digitalWrite(motor2Pin4, LOW);
+  }  
 }
