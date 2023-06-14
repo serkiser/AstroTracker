@@ -15,6 +15,9 @@ int izquierda  = 0;      // estado de la entrada de giro a izquierda
 int derecha = 0;         // estado de la entrada de giro a derecha
 int arriba = 0;          // estado de la entrada de giro a arriba
 int abajo = 0;           // estado de la entrada de giro a abajo
+int buttonbuscar = 6;
+int buscar = 0;
+float paso = 0.087890625;
 int giroizquierda [8][4] =
 {
   {1, 0, 0, 0},
@@ -26,29 +29,8 @@ int giroizquierda [8][4] =
   {0, 0, 0, 1},
   {1, 0, 0, 1}
 };
-int giroarriba [8][4] =
-{
-  {1, 0, 0, 0},
-  {1, 1, 0, 0},
-  {0, 1, 0, 0},
-  {0, 1, 1, 0},
-  {0, 0, 1, 0},
-  {0, 0, 1, 1},
-  {0, 0, 0, 1},
-  {1, 0, 0, 1}
-};
+
 int giroderecha [8][4] =
-{
-  {1, 0, 0, 0},
-  {1, 0, 0, 1},
-  {0, 0, 0, 1},
-  {0, 0, 1, 1},
-  {0, 0, 1, 0},
-  {0, 1, 1, 0},
-  {0, 1, 0, 0},
-  {1, 1, 0, 0}
-};
-int giroabajo [8][4] =
 {
   {1, 0, 0, 0},
   {1, 0, 0, 1},
@@ -73,6 +55,9 @@ void setup() {
   pinMode(buttonder, INPUT);
   pinMode(buttonarb, INPUT);
   pinMode(buttonabj, INPUT);
+  pinMode(buttonbuscar, INPUT);
+  Serial.begin(9600);
+  Serial.println("Posición");
 }
 void loop() {
   izquierda = digitalRead(buttonizq);
@@ -123,10 +108,10 @@ if(arriba==HIGH)
     {
       for (int i = 0; i < 8; i++)
       {
-        digitalWrite(motor2Pin1, giroarriba[i][0]);
-        digitalWrite(motor2Pin2, giroarriba[i][1]);
-        digitalWrite(motor2Pin3, giroarriba[i][2]);
-        digitalWrite(motor2Pin4, giroarriba[i][3]); 
+        digitalWrite(motor2Pin1, giroizquierda[i][0]);
+        digitalWrite(motor2Pin2, giroizquierda[i][1]);
+        digitalWrite(motor2Pin3, giroizquierda[i][2]);
+        digitalWrite(motor2Pin4, giroizquierda[i][3]); 
         delay(delayTime);
       }      
     }   
@@ -152,5 +137,34 @@ if(arriba==HIGH)
     digitalWrite(motor2Pin2, LOW);
     digitalWrite(motor2Pin3, LOW);
     digitalWrite(motor2Pin4, LOW);
-  }  
-}
+  }
+  if (buscar==HIGH)  //Error en esta parte, estoy mirando como arreglarlo
+  {
+    while (Serial.available()==0)
+    {      
+    
+  
+      int posicion = Serial.parseFloat();
+      int desplazamiento(int paso, int posicion);
+      {
+        int pasos;
+        pasos=posicion/paso;
+      }
+      int pasosv;
+      float pasos;
+      pasosv = (int) pasos;  
+      for (int i = 0; i < pasosv; i++)
+      {
+      for (int i = 0; i < 8; i++)
+        {
+          digitalWrite(motor1Pin1, giroizquierda[i][0]);
+          digitalWrite(motor1Pin2, giroizquierda[i][1]);
+          digitalWrite(motor1Pin3, giroizquierda[i][2]);
+          digitalWrite(motor1Pin4, giroizquierda[i][3]); 
+          delay(delayTime);
+        }      
+      }   
+      digitalWrite(motor1Pin1, LOW);
+      digitalWrite(motor1Pin2, LOW);
+      digitalWrite(motor1Pin3, LOW);  
+      digitalWrite(motor1Pin4, LOW); 
